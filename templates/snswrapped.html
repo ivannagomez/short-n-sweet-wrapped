@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+
+    <title>Short n' Sweet Wrapped</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f0ff;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #f3e5f5;
+            color: #6a1b9a;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+        h2 {
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            border-radius: 5px;
+        }
+
+        .song-item {
+            list-style-type: none;
+            margin-bottom: 1.3vh;
+            display: flex;
+        }
+
+        .song-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .album-image {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border: 2.5px solid white;
+            border-radius: 11px;
+        }
+        .num-image {
+            height: 6vh;
+            margin-right: 6px
+        }
+
+        .song-name {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .honorable-mentions {
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .honorable-mentions span {
+            font-weight: bold;
+        }
+
+        .honorable-mentions p {
+            margin: 5px 0;
+            font-style: italic;
+        }
+
+        .section {
+            background-color: #333;
+            display: flex;
+            align-content: center;
+            flex-wrap: nowrap;
+            height: 100vh;
+            width: auto;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .gradient {
+            position: fixed; /* Keeps the image in a fixed position relative to the viewport */
+            top: 0px;       /* Position it 20px from the top of the viewport */
+            height: 100vh;
+            z-index: -1; 
+        }
+
+        .height {
+            height: 100vh;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .abso {
+            position: absolute;
+        }
+        .song-name {
+            color: #905d50;
+            font-size: 2vh;
+        }
+        .album-name {
+            color: #905d50;
+            margin: 0px;
+            margin-top: 0.1vh;
+            font-size: 2vh;
+            white-space: nowrap; /* Prevent text wrapping */
+            overflow: hidden; /* Clip overflowing content */
+            text-overflow: ellipsis; /* Add ellipsis to overflowing text */
+            display: flex;
+            max-width: 80%;
+        }
+        .songs-div {
+            flex-direction: column;
+            align-items: center;
+        }
+        .flex-center {
+            display: flex;
+            justify-content: center;
+        }
+        .tick-width {
+            width: auto;
+        }
+        .songBox {
+            overflow: hidden;
+        }
+        .messageBox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #634733;
+            font-family: times;
+            font-size: 2.2vh;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s forwards; /* 1s duration, forwards retains the final state */
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .fade-out {
+            opacity: 0;
+            animation: fadeOut 1s forwards; /* 1s duration, forwards retains the final state */
+        }
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <section class="section">
+        <video autoplay muted playsinline class="height abso" style="pointer-events: none;" id="1">
+            <source src="{{ url_for('static', filename='videos/intro_SnS.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Regular images for other sections -->
+        
+        <div  id="2" class="messageBox">
+            <img class="height" style="z-index: 0" src="{{ url_for('static', filename='images/pre-message.png') }}" alt="Songs Image">
+            <div id="success-msg" class="abso" style="display:none; max-width: 40vh;">
+                <p>
+                    You listened to a lot of Sabrina this year, it seems her songs made it into your overall top tracks!
+                    <br><br>Let’s see your top songs...
+                </p>
+            </div>
+            <div id="fail-msg" class="abso" style="display:none; max-width: 40vh;">
+                <p>Sorry, we couldn’t find any Sabrina songs amongst your overall top 500 tracks or an error happened :(</p>
+            </div>
+            <div id="error-msg" class="abso" style="display:none; max-width: 40vh;">
+                <p>Oops, an error happened, please try again later :(</p>
+            </div>
+        </div>
+
+        <!-- Regular images for other sections -->
+        <div class="height songs-div" style="justify-content: flex-start;" id="3">
+            <img class="height" style="z-index: 0" src="{{ url_for('static', filename='images/pre-message.png') }}" alt="Songs Image">
+            <img class="height abso fade-in" style="z-index: 1" src="{{ url_for('static', filename='images/frame.png') }}" alt="Songs Image">
+            <div class="abso" style="margin-top: 51vh; width: 57vh">
+                <div class="flex-center songBox fade-in" style="margin-left:14%; margin-right:14%; justify-content: flex-start; display:none;">
+                    <ul id="songs" style="max-width: 430px;"></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Montserrat', sans-serif;
+            }
+        </style>
+    </head>
+
+    <script>
+        const sectionIds = ["1", "2", "3"]; // Ensure IDs match your HTML
+        let currentIndex = 0; // Start with the first section
+
+        function showNextSection() {
+            // Get all sections
+            const currentSection = document.getElementById(sectionIds[currentIndex]);
+            if (!currentSection) {
+                console.error(`Section with ID ${sectionIds[currentIndex]} not found`);
+                return;
+            }
+
+            // Hide the current section
+            currentSection.style.display = "none";
+
+            // Move to the next section
+            currentIndex = (currentIndex + 1) % sectionIds.length;
+
+            const ulElement = document.getElementById('songs'); // Get the <ul> element by its ID
+            const liItems = ulElement.getElementsByTagName('li'); // Get all <li> elements inside the <ul>
+            const numberOfSongs = liItems.length;
+
+            // Show the next section
+            const nextSection = document.getElementById(sectionIds[currentIndex]);
+            if (nextSection) {
+                nextSection.style.display = "flex";
+                // Apply fade-in effect to the songBox content
+                if (nextSection.querySelector('.songBox')) {
+                    const songBoxContent = nextSection.querySelector('.songBox');
+                    //songBoxContent.classList.add('fade-in');
+                    setTimeout(() => {
+                        songBoxContent.style.display = "flex";
+                    }, 500);
+
+                    // Remove the fade-in class after the animation completes to allow re-trigger
+                    setTimeout(() => {
+                        songBoxContent.classList.remove('fade-in');
+                    }, 1500); // Match the animation duration (1s in this case)
+                } else if (numberOfSongs > 0) {
+                    const msgContent = document.getElementById('success-msg');
+                    msgContent.classList.add('fade-in');
+                    msgContent.style.display = "flex";
+                    // Remove the fade-in class after the animation completes to allow re-trigger
+                    setTimeout(() => {
+                        msgContent.classList.remove('fade-in');
+                        msgContent.classList.add('fade-out');
+                    }, 4500);
+                } else {
+                    const msgContent = document.getElementById('fail-msg');
+                    msgContent.classList.add('fade-in');
+                    msgContent.style.display = "flex";
+                }
+            } else {
+                console.error(`Section with ID ${sectionIds[currentIndex]} not found`);
+            }
+        }
+
+        // Initially hide all sections except the first one
+        sectionIds.forEach((id, index) => {
+            const section = document.getElementById(id);
+            if (section) {
+                section.style.display = index === 0 ? "block" : "none";
+            } else {
+                console.error(`Section with ID ${id} not found`);
+            }
+        });
+
+        // Set an interval to switch sections every 5 seconds
+
+        setTimeout(() => {
+            showNextSection(); 
+            const ulElement = document.getElementById('songs'); // Get the <ul> element by its ID
+            const liItems = ulElement.getElementsByTagName('li'); // Get all <li> elements inside the <ul>
+            const numberOfSongs = liItems.length;
+            if (numberOfSongs > 0) {
+                setTimeout(() => {
+                    showNextSection(); 
+                }, 5700);
+            }
+        }, 7900);
+
+    </script>
+    <script>
+        // Fetch songs and albums dynamically
+        fetch('/snsWrapped')
+            .then(response => response.json())
+            .then(data => {
+                const { songs } = data;
+
+                console.log(songs);
+                console.log(songs.length);
+
+                // Populate the top 5 songs
+                const songsList = document.getElementById('songs');
+                songs.slice(0, 5).forEach((song, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('song-item');
+
+                    const songContainer = document.createElement('div');
+                    songContainer.classList.add('song-container');
+
+                    const numImage = document.createElement('img');
+                    numImage.src = `/static/images/${index + 1}-.png`;
+                    numImage.alt = `Image representing rank`;
+                    numImage.classList.add('num-image');
+                    songContainer.appendChild(numImage);
+
+                    const songNameAndAlbum = document.createElement('div');
+                    songNameAndAlbum.classList.add('songNameAndAlbum')
+
+                    const songName = document.createElement('p');
+                    songName.textContent = song.song_name;
+                    songName.classList.add('song-name');
+
+                    const albumName = document.createElement('p');
+                    albumName.textContent = song.album_name + " ...............................................................................................................";
+                    albumName.classList.add('album-name');
+
+                    songNameAndAlbum.appendChild(songName);
+                    songNameAndAlbum.appendChild(albumName);
+                    songContainer.appendChild(songNameAndAlbum);
+
+                    listItem.appendChild(songContainer);
+                    songsList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+
+                // Show error message if data cannot be fetched
+                document.getElementById('songs').innerHTML = '<li>Unable to fetch songs. Please try again later.</li>';
+                document.getElementById('albums').innerHTML = '<li>Unable to fetch albums. Please try again later.</li>';
+            });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const image = document.querySelector('.songs-div img');
+            const tickWidthDiv = document.querySelector('.tick-width');
+    
+            if (image && tickWidthDiv) {
+                // Wait for the image to fully load
+                image.addEventListener('load', () => {
+                    // Set the width of .tick-width to match the image width
+                    tickWidthDiv.style.width = `${image.offsetWidth}px`;
+                });
+    
+                // If the image is already loaded (e.g., cached)
+                if (image.complete) {
+                    tickWidthDiv.style.width = `${image.offsetWidth}px`;
+                }
+            }
+    
+            // Optional: Update width on window resize
+            window.addEventListener('resize', () => {
+                if (image && tickWidthDiv) {
+                    tickWidthDiv.style.width = `${image.offsetWidth}px`;
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>
